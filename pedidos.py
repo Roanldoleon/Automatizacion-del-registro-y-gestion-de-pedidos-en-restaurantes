@@ -1,5 +1,7 @@
 # Sistema de pedidos de un restaurante pequeño
-# Version 2 : registro de varios productos con un ciclo while
+# Version 3 : validacion del pedido, pago, vuelto y estado
+
+# ENTRADA
 
 def ingresarPedido(productosDisponibles, preciosDisponibles):
 
@@ -32,6 +34,8 @@ def ingresarPedido(productosDisponibles, preciosDisponibles):
     return cliente, mesa, productos, cantidades, precios
 
 
+# PROCESO
+
 def obtenerTotal(precios, cantidades):
 
     total = 0
@@ -42,14 +46,22 @@ def obtenerTotal(precios, cantidades):
     return total
 
 
-def pedidos():
+def procesarPago(total):
 
-    productosDisponibles = ["Arroz chaufa", "Caldo de gallina", "Aji de pollo", "Chicha morada"]
-    preciosDisponibles = [12, 15, 10, 5]
+    pago = float(input("Monto recibido: S/. "))
 
-    cliente, mesa, productos, cantidades, precios = ingresarPedido(productosDisponibles, preciosDisponibles)
+    while pago < total:
+        print("Pago insuficiente")
+        pago = float(input("Ingrese nuevamente el monto recibido: "))
 
-    total = obtenerTotal(precios, cantidades)
+    vuelto = pago - total
+
+    return vuelto
+
+
+# SALIDA
+
+def mostrarPedido(cliente, mesa, productos, cantidades, total, vuelto):
 
     print("\n----- RESUMEN DEL PEDIDO -----")
     print("Cliente:", cliente)
@@ -59,6 +71,34 @@ def pedidos():
         print(productos[i], "Cantidad:", cantidades[i])
 
     print("Total a pagar: S/.", format(total, ".2f"))
+    print("Pago correcto. Vuelto: S/.", format(vuelto, ".2f"))
+    print("Estado del pedido: Listo para entregar")
+
+
+# PROGRAMA PRINCIPAL
+
+def pedidos():
+
+    productosDisponibles = ["Arroz chaufa", "Caldo de gallina", "Aji de pollo", "Chicha morada"]
+    preciosDisponibles = [12, 15, 10, 5]
+
+    cliente, mesa, productos, cantidades, precios = ingresarPedido(productosDisponibles, preciosDisponibles)
+
+    if cliente != "" and mesa > 0 and len(productos) > 0:
+
+        total = obtenerTotal(precios, cantidades)
+
+        print("Total a pagar: S/.", total)
+
+        vuelto = procesarPago(total)
+
+        mostrarPedido(cliente, mesa, productos, cantidades, total, vuelto)
+
+    else:
+        print("No se puede registrar el pedido")
+
+
+pedidos()
 
 
 pedidos()
