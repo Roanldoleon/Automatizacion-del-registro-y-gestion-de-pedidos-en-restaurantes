@@ -1,4 +1,3 @@
-
 # Sistema de pedidos de un restaurante pequeño
 # Version 3 : validacion del pedido, pago, vuelto y estado
 
